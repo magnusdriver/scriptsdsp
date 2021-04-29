@@ -12,16 +12,22 @@ def delay(signal ,frameShift):
 	for i in signal:
 		if bufferFull == 0:
 			newSignal[frameCounter] = i
+#			print(newSignal)
 			delayBuffer[frameCounter] = newSignal[frameCounter]
 		elif bufferFull == 1:
+#			print(delayBuffer)
 			if frameCounter <= signal.shape[0]:
-				newSignal[frameCounter] = i + (1/2)*delayBuffer[0]
+				newSignal[frameCounter] = i + (2/3)*delayBuffer[0]
 				delayBuffer = np.delete(delayBuffer, [0])
-				np.append(delayBuffer, newSignal[frameCounter])
+				delayBuffer = np.append(delayBuffer, [newSignal[frameCounter]])
 			else:
-				while delayBuffer.shape[0] >= 1:
-					np.append(newSignal, (1/2)*delayBuffer[0])
+				print('hola')
+				while delayBuffer.shape[0] > 1:
+					newSignal = np.append(newSignal, (2/3)*delayBuffer[0])
 					delayBuffer = np.delete(delayBuffer, [0])
+		frameCounter += 1
+		if frameCounter == frameShift:
+			bufferFull = 1
 
 	return newSignal
 
@@ -41,5 +47,5 @@ if nchannel == 2:
 
 delaytime = int(sys.argv[2])
 fs = (delaytime/1000) * samplerate
-finalAudio = delay(audio, fs)
-
+finalAudio = delay(audio, int(fs))
+write("salida.wav", samplerate, finalAudio)
