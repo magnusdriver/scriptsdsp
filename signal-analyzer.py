@@ -25,7 +25,7 @@ T = 1/samplerate
 time = np.arange(0, T*N, T)
 nSample = np.arange(0, samplerate)
 
-#Muestra de señal continua
+# Muestra de señal continua
 plt.figure(1)
 plt.title("Señal wav...")
 plt.plot(time, signal)
@@ -33,12 +33,13 @@ plt.xlabel('Tiempo (s)')
 plt.ylabel('Amplitud')
 plt.show()
 
-#Muestra de señal discreta
+# Muestra de señal discreta
 plt.stem(nSample, signal[0:samplerate], use_line_collection=True)
 plt.xlabel('Muestras')
 plt.ylabel('Amplitud')
 plt.show()
 
+# Muestra del espectro de frecuencias mediante transformadas de Fourier
 signalf = fft(signal)
 xf = fftfreq(N, T)[:N//2]
 #plt.plot(signalf)
@@ -49,8 +50,8 @@ plt.xlabel('Frecuencia (Hz)')
 plt.grid()
 plt.show()
 
+# Muestra de las distintas señales que conforman la señal de entrada
 sines = []
-
 sintime = np.linspace(0, 0.05, 2 * samplerate, endpoint=False)
 for z in range(6000):
 	if signalf[z].real > 2e+6:
@@ -61,5 +62,5 @@ for z in sines:
 #plt.plot(signalf)
 plt.show()
 
-print(xf)
-print(signalf)
+#print(xf)
+#print(signalf)
